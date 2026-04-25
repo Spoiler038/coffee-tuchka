@@ -472,6 +472,34 @@
             .section-title { font-size: 2rem; }
             .contacts-flex { flex-direction: column; }
         }
+
+        /* Мобильная навигация */
+@media (max-width: 768px) {
+    header .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .nav-bar {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 0 0 0;
+    }
+    
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        padding-bottom: 12px;
+    }
+    
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -479,13 +507,13 @@
         <div class="container">
             <div class="nav-bar">
                 <div class="logo">☁️ Тучка <span>| кофе</span></div>
+                </div>
                 <div class="nav-links">
                     <a href="#menu">Меню</a>
                     <a href="#features">Особенности</a>
                     <a href="#gallery">Напитки</a>
                     <a href="#contacts">Контакты</a>
                 </div>
-            </div>
         </div>
     </header>
 
