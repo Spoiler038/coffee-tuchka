@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тучка | Кофейня в стиле Тиффани</title>
+    <!-- Шрифты: современная геометрика + элегантный для акцентов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F9FBF8;
+            font-family: 'Inter', sans-serif;
+            color: #1E2F2F;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Цветовая палитра "Тиффани" + мягкие оттенки */
+        :root {
+            --tiffany: #7FCDCD;      /* основной бирюзовый */
+            --tiffany-dark: #5BB5B5;
+            --tiffany-soft: #C6E9E9;
+            --accent-mint: #A3D8D8;
+            --deep-teal: #2C5A5A;
+            --cream: #FFFDF5;
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 25px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== ГЛАВНЫЕ СТИЛИ ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Хедер с легким размытием */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 253, 245, 0.85);
+            backdrop-filter: blur(14px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(127, 205, 205, 0.3);
+            transition: all 0.3s;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            font-size: 1.9rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--tiffany-dark), var(--deep-teal));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            background: none;
+            color: var(--deep-teal);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2B4A4A;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--tiffany-dark);
+        }
+
+        /* hero секция */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-badge {
+            background: var(--tiffany-soft);
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            font-family: 'Playfair Display', serif;
+            color: #1C3F3F;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #3D6363;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--tiffany);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 48px;
+            font-weight: 600;
+            color: #1A3A3A;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: var(--tiffany-dark);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--tiffany);
+            padding: 14px 32px;
+            border-radius: 48px;
+            font-weight: 500;
+            color: var(--deep-teal);
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .floating-cup {
+            width: 100%;
+            max-width: 380px;
+            filter: drop-shadow(0 20px 25px -12px rgba(0,0,0,0.2));
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* секции с анимациями появления */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1F4A4A;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: #5D8585;
+            margin-top: -1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* меню - карточки с анимацией slide-up + появление при скролле */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s ease;
+            border: 1px solid rgba(127, 205, 205, 0.2);
+        }
+
+        .menu-card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--shadow-md);
+            border-color: var(--tiffany-soft);
+        }
+
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            transition: 0.5s;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .price {
+            color: var(--tiffany-dark);
+            font-weight: 700;
+        }
+
+        .desc {
+            margin-top: 12px;
+            color: #5b7a7a;
+            line-height: 1.4;
+        }
+
+        /* Особенности - наезжающие сбоку (слева/справа) */
+        .features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+            background: #FFFFFFD9;
+            backdrop-filter: blur(4px);
+            border-radius: 48px;
+            padding: 20px 30px;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            transition: opacity 0.7s, transform 0.7s cubic-bezier(0.2, 0.8, 0.4, 1);
+        }
+
+        .feature-left {
+            transform: translateX(-60px);
+        }
+        .feature-right {
+            transform: translateX(60px);
+        }
+        .feature-item.reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--tiffany);
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .feature-text h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* галерея фото напитков (сбоку наезд) */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .gallery-item {
+            border-radius: 32px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            background: #DBF0F0;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.7s;
+        }
+
+        .gallery-item.reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .gallery-item:nth-child(even) {
+            transform: translateX(40px);
+        }
+        .gallery-item:nth-child(even).reveal {
+            transform: translateX(0);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+
+        /* контакты */
+        .contacts-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            background: var(--cream);
+            border-radius: 64px;
+            padding: 2rem 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .contact-info {
+            flex: 1.2;
+        }
+        .map-placeholder {
+            flex: 2;
+            background: #E2F0F0;
+            border-radius: 48px;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            color: #2C5A5A;
+            border: 1px dashed var(--tiffany);
+            transition: 0.2s;
+        }
+        .contact-detail {
+            margin-bottom: 1.8rem;
+        }
+        .contact-detail i {
+            width: 32px;
+            color: var(--tiffany-dark);
+            font-size: 1.4rem;
+        }
+
+        footer {
+            background: #1F3A3A;
+            color: #C6E0E0;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 760px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .nav-links { gap: 1.2rem; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="nav-bar">
+                <div class="logo">☁️ Тучка <span>| кофе</span></div>
+                <div class="nav-links">
+                    <a href="#menu">Меню</a>
+                    <a href="#features">Особенности</a>
+                    <a href="#gallery">Напитки</a>
+                    <a href="#contacts">Контакты</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero секция -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">✨ Новый сезон 2026</div>
+                    <h1>Тучка <br>облачное наслаждение</h1>
+                    <p>Кофейня в оттенках Тиффани, где каждая чашка — как легкое облако. Авторский подход, свежая обжарка и тёплая атмосфера.</p>
+                    <div class="btn-group">
+                        <a href="#menu" class="btn-primary">Смотреть меню <i class="fas fa-arrow-right"></i></a>
+                        <a href="#contacts" class="btn-outline">Забронировать столик</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img class="floating-cup" src="https://placehold.co/600x600/7FCDCD/FFFFFF?text=☕️+Тучка" alt="Чашка кофе Тучка">
+                </div>
+            </div>
+        </section>
+
+        <!-- Меню с наезжающими карточками снизу -->
+        <section id="menu" class="section">
+            <div class="container">
+                <h2 class="section-title">Наше меню</h2>
+                <div class="section-sub">Симфония вкуса в каждой ложке</div>
+                <div class="menu-grid" id="menuGrid">
+                    <!-- карточки будут динамически добавлены, но для примера сделаем статику с анимацией -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Особенности (слева/справа наезд) -->
+        <section id="features" class="section" style="background: #F3F9F9;">
+            <div class="container">
+                <h2 class="section-title">Почему «Тучка»?</h2>
+                <div class="features-grid" id="featuresGrid">
+                    <div class="feature-item feature-left">
+                        <div class="feature-icon"><i class="fas fa-seedling"></i></div>
+                        <div class="feature-text"><h3>100% арабика</h3><p>Прямые поставки из Эфиопии, Коста-Рики и Кении. Обжарка в день доставки.</p></div>
+                    </div>
+                    <div class="feature-item feature-right">
+                        <div class="feature-icon"><i class="fas fa-cloud-moon"></i></div>
+                        <div class="feature-text"><h3>Облачные десерты</h3><p>Чизкейки и круассаны собственного производства — невесомые как тучка.</p></div>
+                    </div>
+                    <div class="feature-item feature-left">
+                        <div class="feature-icon"><i class="fas fa-hand-sparkles"></i></div>
+                        <div class="feature-text"><h3>Авторский латте-арт</h3><p>Каждый рисунок уникален. Создадим ваше облако или звезду.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Галерея фото напитков (наезд сбоку) -->
+        <section id="gallery" class="section">
+            <div class="container">
+                <h2 class="section-title">Фото напитков</h2>
+                <div class="gallery" id="photoGallery"></div>
+            </div>
+        </section>
+
+        <!-- Контакты + будущая Яндекс карта -->
+        <section id="contacts" class="section">
+            <div class="container">
+                <div class="contacts-flex">
+                    <div class="contact-info">
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem;">Приходите в гости</h3>
+                        <div class="contact-detail"><i class="fas fa-map-marker-alt"></i> пр. Ленина, 15, Санкт-Петербург</div>
+                        <div class="contact-detail"><i class="fas fa-clock"></i> Ежедневно: 08:00 – 22:00</div>
+                        <div class="contact-detail"><i class="fas fa-phone-alt"></i> +7 (812) 123-45-67</div>
+                        <div class="contact-detail"><i class="fab fa-instagram"></i> @tuchka.coffee</div>
+                        <div style="margin-top: 2rem;">
+                            <a href="#" class="btn-primary" style="background: var(--deep-teal); color: white;">Построить маршрут <i class="fas fa-route"></i></a>
+                        </div>
+                    </div>
+                    <div class="map-placeholder" id="yandexMapPlaceholder">
+                        <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=108993608239" width="560" height="400" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">☕️ Тучка — кофейня твоего настроения | 2026 | Тиффани стиль</div>
+    </footer>
+
+    <script>
+        // Меню данные
+        const menuItems = [
+            { name: "Капучино «Облако»", price: "320 ₽", desc: "Нежная пенка, карамельный оттенок и воздушная текстура.", img: "https://placehold.co/600x400/7FCDCD/FFF?text=Капучино" },
+            { name: "Латте «Тиффани»", price: "370 ₽", desc: "Бирюзовый раф с ванилью и голубой солью.", img: "https://placehold.co/600x400/A3D8D8/FFF?text=Латте" },
+            { name: "Фильтр-кофе", price: "280 ₽", desc: "Пуровер из зерен Кения. Цитрус и жасмин.", img: "https://placehold.co/600x400/C6E9E9/FFF?text=Фильтр" },
+            { name: "Матча латте", price: "390 ₽", desc: "Японский стиль, веганское молоко на выбор.", img: "https://placehold.co/600x400/5BB5B5/FFF?text=Матча" }
+        ];
+
+        function buildMenu() {
+            const grid = document.getElementById("menuGrid");
+            grid.innerHTML = "";
+            menuItems.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "menu-card";
+                card.innerHTML = `
+                    <div class="card-img" style="background-image: url('${item.img}'); background-size: cover;"></div>
+                    <div class="card-content">
+                        <div class="card-title"><span>${item.name}</span><span class="price">${item.price}</span></div>
+                        <div class="desc">${item.desc}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Галерея фото (имитация напитков)
+        const galleryImages = [
+            "https://placehold.co/600x600/7FCDCD/FFFFFF?text=Эспрессо",
+            "https://placehold.co/600x600/A3D8D8/FFFFFF?text=Раф",
+            "https://placehold.co/600x600/5BB5B5/FFFFFF?text=Чай+Улун",
+            "https://placehold.co/600x600/C6E9E9/FFFFFF?text=Мокко"
+        ];
+        function buildGallery() {
+            const galleryDiv = document.getElementById("photoGallery");
+            galleryDiv.innerHTML = "";
+            galleryImages.forEach(src => {
+                const item = document.createElement("div");
+                item.className = "gallery-item";
+                item.innerHTML = `<img class="gallery-img" src="${src}" alt="кофе тучка">`;
+                galleryDiv.appendChild(item);
+            });
+        }
+
+        // Intersection Observer — для всех элементов .menu-card, .feature-item, .gallery-item
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.menu-card, .feature-item, .gallery-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal');
+                        // можно продолжить наблюдение, но для производительности отключаем
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2, rootMargin: "0px 0px -30px 0px" });
+            
+            animatedElements.forEach(el => observer.observe(el));
+        }
+
+        // Дополнительно: для динамически добавленных карточек меню / галереи вызываем обсервер после построения
+        function observeNewElements() {
+            const newCards = document.querySelectorAll('.menu-card, .feature-item, .gallery-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            newCards.forEach(el => {
+                if (!el.classList.contains('reveal')) observer.observe(el);
+            });
+        }
+
+        // функция для реинициализации после построения DOM
+        function setupAll() {
+            buildMenu();
+            buildGallery();
+            // Карточки меню и галереи имеют классы .menu-card и .gallery-item — подключаем обсервер через таймаут, чтобы элементы точно появились
+            setTimeout(() => {
+                initScrollAnimations();
+                // также для "особенностей" они уже в DOM, поэтому ещё раз вызовем
+                const features = document.querySelectorAll('.feature-item');
+                const galleryItems = document.querySelectorAll('.gallery-item');
+                const all = [...features, ...galleryItems];
+                const obs = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if(e.isIntersecting) {
+                            e.target.classList.add('reveal');
+                            obs.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.2 });
+                all.forEach(el => obs.observe(el));
+            }, 100);
+        }
+
+        // Плавный скролл для навигации
+        document.querySelectorAll('.nav-links a, .btn-primary[href^="#"], .btn-outline[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if(targetId && targetId !== "#" && targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElem = document.querySelector(targetId);
+                    if(targetElem) {
+                        targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+        
+        // Также кнопка "Построить маршрут" пока просто алерт (в будущем заменится яндекс картой)
+        const routeBtn = document.querySelector('.btn-primary[style*="deep-teal"]');
+        if(routeBtn) {
+            routeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Здесь будет интеграция с Яндекс.Картами: построение маршрута до кофейни "Тучка"');
+            });
+        }
+
+        // Запуск
+        setupAll();
+        // Хедер эффект прозрачности
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if(window.scrollY > 20) {
+                header.style.background = 'rgba(255, 253, 245, 0.95)';
+            } else {
+                header.style.background = 'rgba(255, 253, 245, 0.85)';
+            }
+        });
+    </script>
+</body>
+</html>
