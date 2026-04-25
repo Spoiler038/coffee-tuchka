@@ -182,6 +182,11 @@
             text-decoration: none;
         }
 
+        .btn-outline:hover {
+            background: var(--tiffany-soft);
+            transform: translateY(-3px);
+        }
+
         .hero-image {
             flex: 1;
             display: flex;
@@ -369,35 +374,88 @@
         .contacts-flex {
             display: flex;
             flex-wrap: wrap;
-            gap: 3rem;
+            gap: 2rem;
             background: var(--cream);
             border-radius: 64px;
-            padding: 2rem 2rem;
+            padding: 2rem;
             box-shadow: var(--shadow-sm);
         }
         .contact-info {
-            flex: 1.2;
+            flex: 1;
+            min-width: 260px;
         }
-        .map-placeholder {
+        
+        /* Блок с картой и панорамой */
+        .maps-container {
             flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .map-card {
             background: #E2F0F0;
-            border-radius: 48px;
-            min-height: 320px;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid var(--tiffany-soft);
+            transition: 0.3s;
+        }
+        
+        .map-card iframe {
+            width: 100%;
+            height: 280px;
+            border: none;
+            display: block;
+        }
+        
+        .panorama-card {
+            background: #E2F0F0;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid var(--tiffany-soft);
+        }
+        
+        .panorama-card iframe {
+            width: 100%;
+            height: 240px;
+            border: none;
+            display: block;
+        }
+        
+        .card-label {
+            background: var(--tiffany-soft);
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+            display: inline-block;
+            border-radius: 0 0 12px 0;
+        }
+        
+        .contact-detail {
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-family: monospace;
-            color: #2C5A5A;
-            border: 1px dashed var(--tiffany);
-            transition: 0.2s;
-        }
-        .contact-detail {
-            margin-bottom: 1.8rem;
+            gap: 12px;
         }
         .contact-detail i {
-            width: 32px;
+            width: 28px;
             color: var(--tiffany-dark);
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+        }
+        
+        .route-btn {
+            background: var(--deep-teal);
+            color: white;
+            border: none;
+            margin-top: 1rem;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+        }
+        .route-btn:hover {
+            background: #1F4A4A;
+            transform: translateY(-2px);
         }
 
         footer {
@@ -408,10 +466,11 @@
             margin-top: 2rem;
         }
 
-        @media (max-width: 760px) {
+        @media (max-width: 860px) {
             .hero-content h1 { font-size: 2.5rem; }
             .nav-links { gap: 1.2rem; }
             .section-title { font-size: 2rem; }
+            .contacts-flex { flex-direction: column; }
         }
     </style>
 </head>
@@ -454,9 +513,7 @@
             <div class="container">
                 <h2 class="section-title">Наше меню</h2>
                 <div class="section-sub">Симфония вкуса в каждой ложке</div>
-                <div class="menu-grid" id="menuGrid">
-                    <!-- карточки будут динамически добавлены, но для примера сделаем статику с анимацией -->
-                </div>
+                <div class="menu-grid" id="menuGrid"></div>
             </div>
         </section>
 
@@ -489,21 +546,32 @@
             </div>
         </section>
 
-        <!-- Контакты + будущая Яндекс карта -->
+        <!-- Контакты + Яндекс Карта + Панорама 360 + кнопка маршрута -->
         <section id="contacts" class="section">
             <div class="container">
                 <div class="contacts-flex">
                     <div class="contact-info">
-                        <h3 style="font-size: 2rem; margin-bottom: 1rem;">Приходите в гости</h3>
-                        <div class="contact-detail"><i class="fas fa-map-marker-alt"></i> Московская область, Рузский муниципальный округ, посёлок городского типа Тучково, Советская улица, 22, стр. 1</div>
-                        <div class="contact-detail"><i class="fas fa-clock"></i> Ежедневно: 09:00 – 22:00</div>
-                        <div class="contact-detail"><i class="fas fa-phone-alt"></i> +7 (903) 181-87-78</div>
-                        <div style="margin-top: 2rem;">
-                            <a href="#" class="btn-primary" style="background: var(--deep-teal); color: white;">Построить маршрут <i class="fas fa-route"></i></a>
-                        </div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1.5rem;">Приходите в гости</h3>
+                        <div class="contact-detail"><i class="fas fa-map-marker-alt"></i> пр. Ленина, 15, Санкт-Петербург</div>
+                        <div class="contact-detail"><i class="fas fa-clock"></i> Ежедневно: 08:00 – 22:00</div>
+                        <div class="contact-detail"><i class="fas fa-phone-alt"></i> +7 (812) 123-45-67</div>
+                        <button class="btn-primary route-btn" id="routeButton">
+                            <i class="fas fa-route"></i> Построить маршрут
+                        </button>
                     </div>
-                    <div class="map-placeholder" id="yandexMapPlaceholder">
-                        <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=108993608239" width="560" height="400" frameborder="0"></iframe>
+                    
+                    <div class="maps-container">
+                        <!-- Интерактивная карта (вид бизнеса) -->
+                        <div class="map-card">
+                            <div class="card-label"><i class="fas fa-store"></i> На карте</div>
+                            <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=108993608239" width="560" height="280" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        
+                        <!-- Панорама 360 градусов (Яндекс.Панорамы) -->
+                        <div class="panorama-card">
+                            <div class="card-label"><i class="fas fa-vr-cardboard"></i> Панорама 360°</div>
+                            <iframe src="https://yandex.com/map-widget/v1/?from=api-maps&l=stv%2Csta&ll=36.468929%2C55.602883&origin=jsapi_2_1_79&panorama%5Bdirection%5D=338.513869%2C1.900204&panorama%5Bfull%5D=true&panorama%5Bpoint%5D=36.468777%2C55.602884&panorama%5Bspan%5D=101.551635%2C60.000000&utm_source=jsapi&z=20.06" width="560" height="240" frameborder="0" allowfullscreen="true"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -540,7 +608,7 @@
             });
         }
 
-        // Галерея фото (имитация напитков)
+        // Галерея фото
         const galleryImages = [
             "https://placehold.co/600x600/7FCDCD/FFFFFF?text=Эспрессо",
             "https://placehold.co/600x600/A3D8D8/FFFFFF?text=Раф",
@@ -558,14 +626,13 @@
             });
         }
 
-        // Intersection Observer — для всех элементов .menu-card, .feature-item, .gallery-item
+        // Intersection Observer — для всех элементов с анимацией
         function initScrollAnimations() {
             const animatedElements = document.querySelectorAll('.menu-card, .feature-item, .gallery-item');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('reveal');
-                        // можно продолжить наблюдение, но для производительности отключаем
                         observer.unobserve(entry.target);
                     }
                 });
@@ -574,30 +641,13 @@
             animatedElements.forEach(el => observer.observe(el));
         }
 
-        // Дополнительно: для динамически добавленных карточек меню / галереи вызываем обсервер после построения
-        function observeNewElements() {
-            const newCards = document.querySelectorAll('.menu-card, .feature-item, .gallery-item');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-            newCards.forEach(el => {
-                if (!el.classList.contains('reveal')) observer.observe(el);
-            });
-        }
-
-        // функция для реинициализации после построения DOM
+        // полная настройка
         function setupAll() {
             buildMenu();
             buildGallery();
-            // Карточки меню и галереи имеют классы .menu-card и .gallery-item — подключаем обсервер через таймаут, чтобы элементы точно появились
             setTimeout(() => {
                 initScrollAnimations();
-                // также для "особенностей" они уже в DOM, поэтому ещё раз вызовем
+                // дополнительная проверка для фич и галереи
                 const features = document.querySelectorAll('.feature-item');
                 const galleryItems = document.querySelectorAll('.gallery-item');
                 const all = [...features, ...galleryItems];
@@ -627,18 +677,18 @@
             });
         });
         
-        // Также кнопка "Построить маршрут" пока просто алерт (в будущем заменится яндекс картой)
-        const routeBtn = document.querySelector('.btn-primary[style*="deep-teal"]');
+        // Кнопка построения маршрута (открывает ссылку построения маршрута)
+        const routeBtn = document.getElementById("routeButton");
         if(routeBtn) {
             routeBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                alert('Здесь будет интеграция с Яндекс.Картами: построение маршрута до кофейни "Тучка"');
+                // Ссылка на построение маршрута до кофейни
+                const routeUrl = "https://yandex.com/maps/?from=mapframe&ll=36.468798%2C55.602876&mode=routes&rtext=~55.602876%2C36.468798&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D108993608239&z=14";
+                window.open(routeUrl, '_blank');
             });
         }
 
-        // Запуск
-        setupAll();
-        // Хедер эффект прозрачности
+        // Хедер эффект
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             if(window.scrollY > 20) {
@@ -647,6 +697,8 @@
                 header.style.background = 'rgba(255, 253, 245, 0.85)';
             }
         });
+        
+        setupAll();
     </script>
 </body>
 </html>
